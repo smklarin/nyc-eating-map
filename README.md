@@ -37,3 +37,26 @@ The restaurant names, notes, and original locations came from the family Word do
 4. Tap a restaurant pin and then **Apple Maps**.
 5. Test the category chips and search box.
 6. Optional: Safari Share → **Add to Home Screen**.
+
+## v2 features
+- Interactive restaurant pins across Manhattan plus Lucali in Brooklyn
+- iPhone/Safari geolocation with a live "you are here" marker
+- Closest-first restaurant list after location is enabled
+- **Near me** mode showing the nearest 8 restaurants that match the current search/filter
+- Closest restaurant shortcut displayed directly on the map
+- Search and cuisine filters
+- Restaurant **Website / Menu** button
+- One-tap walking directions in Apple Maps
+- One-tap walking directions in Google Maps
+- Share button using the iPhone share sheet
+- Mobile-friendly controls and larger touch targets
+- Add-to-Home-Screen tip for iPhone users
+
+## Deploying on GitHub Pages
+Replace the repository's existing `index.html` with the v2 `index.html` and commit the change to the `main` branch. GitHub Pages should redeploy automatically.
+
+For this repository, the public site should remain:
+`https://smklarin.github.io/nyc-eating-map/`
+
+## Notes
+The restaurant notes came from the family's source document and are not live hours or pricing. Restaurant website/menu links were researched separately. Apple Maps and Google Maps handle the actual navigation route.
