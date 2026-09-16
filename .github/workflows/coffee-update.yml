@@ -1,0 +1,67 @@
+name: Add coffee shops
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/coffee-update.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-map:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add coffee locations
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('index.html')
+          t = p.read_text()
+          if "code:'27a'" in t:
+              print('Coffee locations already present; nothing to do.')
+              raise SystemExit(0)
+
+          tail = "  {code:'26', name:'Chelsea Market', address:'75 9th Ave, New York, NY 10011', lat:40.74210, lng:-74.00603, category:'Other', note:'Food Hall', website:'https://www.chelseamarket.com/'}\n];"
+          additions = """  {code:'26', name:'Chelsea Market', address:'75 9th Ave, New York, NY 10011', lat:40.74210, lng:-74.00603, category:'Other', note:'Food Hall', website:'https://www.chelseamarket.com/'},
+          {code:'27a', name:'Caffe Paradiso', address:'202B Elizabeth St, New York, NY 10012', lat:40.7220038, lng:-73.9943176, category:'Coffee', note:'', website:''},
+          {code:'27b', name:'Cafe Paradiso', address:'144 W 65th St, New York, NY 10023', lat:40.7733834, lng:-73.9835585, category:'Coffee', note:'', website:'https://www.cafeparadisonyc.com/'},
+          {code:'28a', name:"Ralph's Coffee", address:'888 Madison Ave, New York, NY 10021', lat:40.7716200, lng:-73.9658200, category:'Coffee', note:'', website:'https://www.ralphlauren.com/ralphs-coffee-locations-feat'},
+          {code:'28b', name:"Ralph's Coffee", address:'630 5th Ave, New York, NY 10111', lat:40.7589950, lng:-73.9772981, category:'Coffee', note:'Appears to be food truck at Rockefeller Center', website:'https://www.ralphlauren.com/ralphs-coffee-locations-feat'}
+          ];"""
+          if tail not in t:
+              raise SystemExit('Could not find Chelsea Market tail; refusing to edit.')
+          t = t.replace(tail, additions, 1)
+
+          if 'v3.3 prototype' in t:
+              t = t.replace("--burger:#f0a128;--asian:#23c59d;--mexican:#ff7438;--other:#299bda;", "--burger:#f0a128;--asian:#23c59d;--mexican:#ff7438;--coffee:#c58a54;--other:#299bda;", 1)
+              t = t.replace("'Burgers':'#f0a128','Asian':'#23c59d','Mexican':'#ff7438','Other':'#299bda'", "'Burgers':'#f0a128','Asian':'#23c59d','Mexican':'#ff7438','Coffee':'#c58a54','Other':'#299bda'", 1)
+              t = t.replace("'Burgers':'🍔','Asian':'🍜','Mexican':'🌮','Other':'🍽️'", "'Burgers':'🍔','Asian':'🍜','Mexican':'🌮','Coffee':'☕','Other':'🍽️'", 1)
+              t = t.replace("'Burgers','#f0a128','Asian','#23c59d','Mexican','#ff7438','Other','#299bda','#688198'", "'Burgers','#f0a128','Asian','#23c59d','Mexican','#ff7438','Coffee','#c58a54','Other','#299bda','#688198'", 1)
+              t = t.replace('<span id="mapCount">32</span> family spots · NYC', '<span id="mapCount">36</span> family spots · NYC', 1)
+              t = t.replace('<span id="listCount">32 locations</span>', '<span id="listCount">36 locations</span>', 1)
+          else:
+              t = t.replace("--burger:#d97706; --asian:#047857; --mexican:#ea580c; --other:#0369a1;", "--burger:#d97706; --asian:#047857; --mexican:#ea580c; --coffee:#7a5c3e; --other:#0369a1;", 1)
+              t = t.replace("'Burgers':'#d97706','Asian':'#047857','Mexican':'#ea580c','Other':'#0369a1'", "'Burgers':'#d97706','Asian':'#047857','Mexican':'#ea580c','Coffee':'#7a5c3e','Other':'#0369a1'", 1)
+
+          if t.count("category:'Coffee'") != 4:
+              raise SystemExit('Coffee location sanity check failed.')
+          p.write_text(t)
+          print('Updated index.html with 4 coffee locations.')
+          PY
+      - name: Commit map update
+        shell: bash
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "No index.html changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add requested coffee shops"
+          git push
