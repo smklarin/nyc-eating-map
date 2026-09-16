@@ -17,7 +17,7 @@
       --navy:#0b2545; --navy2:#12365f; --blue:#1976d2; --bg:#f7f7f3; --card:#fff; --muted:#64748b;
       --border:#dbe2ea; --shadow:0 8px 26px rgba(15,23,42,.12); --radius:16px;
       --pizza:#dc2626; --italian:#7c3aed; --bagel:#db2777; --steak:#92400e;
-      --burger:#d97706; --asian:#047857; --mexican:#ea580c; --other:#0369a1;
+      --burger:#d97706; --asian:#047857; --mexican:#ea580c; --coffee:#7a5c3e; --other:#0369a1;
     }
     *{box-sizing:border-box}
     html,body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:#111827}
@@ -133,12 +133,16 @@ const restaurants = [
   {code:'23', name:'Una Pizza Napoletana', address:'175 Orchard St, New York, NY 10002', lat:40.7217197, lng:-73.9884849, category:'Pizza', note:'Pizza (Bib Gourmand)', website:'https://unapizza.com/'},
   {code:'24', name:'Katz’s Delicatessen', address:'205 E Houston St, New York, NY 10002', lat:40.72234, lng:-73.98735, category:'Other', note:'Deli (Bib Gourmand)', website:'https://katzsdelicatessen.com/'},
   {code:'25', name:'Norma Gastronomia Siciliana', address:'438 3rd Ave, New York, NY 10016', lat:40.74330, lng:-73.97997, category:'Italian', note:'Italian (Bib Gourmand)', website:'https://normarestaurant.com/'},
-  {code:'26', name:'Chelsea Market', address:'75 9th Ave, New York, NY 10011', lat:40.74210, lng:-74.00603, category:'Other', note:'Food Hall', website:'https://www.chelseamarket.com/'}
+  {code:'26', name:'Chelsea Market', address:'75 9th Ave, New York, NY 10011', lat:40.74210, lng:-74.00603, category:'Other', note:'Food Hall', website:'https://www.chelseamarket.com/'},
+{code:'27a', name:'Caffe Paradiso', address:'202B Elizabeth St, New York, NY 10012', lat:40.7220038, lng:-73.9943176, category:'Coffee', note:'', website:''},
+{code:'27b', name:'Cafe Paradiso', address:'144 W 65th St, New York, NY 10023', lat:40.7733834, lng:-73.9835585, category:'Coffee', note:'', website:'https://www.cafeparadisonyc.com/'},
+{code:'28a', name:"Ralph's Coffee", address:'888 Madison Ave, New York, NY 10021', lat:40.7716200, lng:-73.9658200, category:'Coffee', note:'', website:'https://www.ralphlauren.com/ralphs-coffee-locations-feat'},
+{code:'28b', name:"Ralph's Coffee", address:'630 5th Ave, New York, NY 10111', lat:40.7589950, lng:-73.9772981, category:'Coffee', note:'Appears to be food truck at Rockefeller Center', website:'https://www.ralphlauren.com/ralphs-coffee-locations-feat'}
 ];
 
 const categoryColors = {
   'Pizza':'#dc2626','Italian':'#7c3aed','Bagels / Bakery':'#db2777','Steakhouse':'#92400e',
-  'Burgers':'#d97706','Asian':'#047857','Mexican':'#ea580c','Other':'#0369a1'
+  'Burgers':'#d97706','Asian':'#047857','Mexican':'#ea580c','Coffee':'#7a5c3e','Other':'#0369a1'
 };
 const allCategories=['All',...new Set(restaurants.map(r=>r.category))];
 const NYC_CENTER={lat:40.7484,lng:-73.9857};
